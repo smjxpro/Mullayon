@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mullayon.Core", "Mullayon.Core\Mullayon.Core.csproj", "{7834A4E2-4EA5-4112-B7DF-F5CD7B554B74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mullayon.Infrastructure", "Mullayon.Infrastructure\Mullayon.Infrastructure.csproj", "{C023367B-66B8-4C20-ACA3-87C30FB220D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mullayon.Api", "Mullayon.Api\Mullayon.Api.csproj", "{CD3B6A9E-B3C9-4A1C-8F31-68CE9C11A79E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7834A4E2-4EA5-4112-B7DF-F5CD7B554B74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7834A4E2-4EA5-4112-B7DF-F5CD7B554B74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7834A4E2-4EA5-4112-B7DF-F5CD7B554B74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7834A4E2-4EA5-4112-B7DF-F5CD7B554B74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C023367B-66B8-4C20-ACA3-87C30FB220D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C023367B-66B8-4C20-ACA3-87C30FB220D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C023367B-66B8-4C20-ACA3-87C30FB220D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C023367B-66B8-4C20-ACA3-87C30FB220D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD3B6A9E-B3C9-4A1C-8F31-68CE9C11A79E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD3B6A9E-B3C9-4A1C-8F31-68CE9C11A79E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD3B6A9E-B3C9-4A1C-8F31-68CE9C11A79E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD3B6A9E-B3C9-4A1C-8F31-68CE9C11A79E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
