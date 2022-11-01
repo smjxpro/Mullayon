@@ -11,8 +11,8 @@ using Mullayon.Infrastructure.Data;
 namespace Mullayon.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221030142334_AddedPostAndUser")]
-    partial class AddedPostAndUser
+    [Migration("20221101175859_UpdatedPost")]
+    partial class UpdatedPost
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -217,10 +217,7 @@ namespace Mullayon.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("AuthorId1")
+                    b.Property<string>("AuthorId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Content")
@@ -239,7 +236,7 @@ namespace Mullayon.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId1");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Posts");
                 });
@@ -299,7 +296,7 @@ namespace Mullayon.Infrastructure.Migrations
                 {
                     b.HasOne("Mullayon.Core.Entities.ApplicationUser", "Author")
                         .WithMany()
-                        .HasForeignKey("AuthorId1");
+                        .HasForeignKey("AuthorId");
 
                     b.Navigation("Author");
                 });

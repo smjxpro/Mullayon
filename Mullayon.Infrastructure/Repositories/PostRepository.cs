@@ -13,7 +13,7 @@ public class PostRepository: GenericRepository<Post>, IPostRepository
 
     public async Task<IEnumerable<Post>> GetPostsByAuthorAsync(Guid id)
     {
-        return await Context.Posts.Where(p => p.AuthorId == id).ToListAsync();
+        return await Context.Posts.Where(p => p.Author.Id == id.ToString()).ToListAsync();
     }
 
     public override async Task<IEnumerable<Post>> GetAllAsync()

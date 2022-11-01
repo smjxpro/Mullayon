@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mullayon.Infrastructure.Migrations
 {
-    public partial class AddedPostAndUser : Migration
+    public partial class UpdatedPost : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -163,15 +163,14 @@ namespace Mullayon.Infrastructure.Migrations
                     Content = table.Column<string>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    AuthorId1 = table.Column<string>(type: "TEXT", nullable: true),
-                    AuthorId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    AuthorId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posts_AspNetUsers_AuthorId1",
-                        column: x => x.AuthorId1,
+                        name: "FK_Posts_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
@@ -214,9 +213,9 @@ namespace Mullayon.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_AuthorId1",
+                name: "IX_Posts_AuthorId",
                 table: "Posts",
-                column: "AuthorId1");
+                column: "AuthorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

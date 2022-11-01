@@ -7,6 +7,9 @@ public class Post
     public string Content { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public Image FeaturedImage { get; set; }
+    public IEnumerable<Image> Images { get; set; }
     public ApplicationUser Author { get; set; }
-    public Guid AuthorId { get; set; }
+    public IEnumerable<Category> Categories { get; set; }
+
 }

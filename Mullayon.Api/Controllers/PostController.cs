@@ -41,7 +41,6 @@ public class PostController : BaseController
             Title = post.Title,
             Content = post.Content,
             Author = author,
-            AuthorId = Guid.Parse(author.Id)
         };
         await UnitOfWork.Post.AddAsync(newPost);
         await UnitOfWork.CommitAsync();

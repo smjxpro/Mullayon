@@ -15,6 +15,7 @@ public class UnitOfWork : IUnitOfWork
 
         //Repositories
         Post = new PostRepository(_context);
+        Category = new CategoryRepository(_context);
     }
 
     public async Task CommitAsync()
@@ -23,4 +24,5 @@ public class UnitOfWork : IUnitOfWork
     }
 
     public IPostRepository Post { get; set; }
+    public ICategoryRepository Category { get; set; }
 }

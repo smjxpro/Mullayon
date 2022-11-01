@@ -7,4 +7,5 @@ public interface IUnitOfWork
     Task CommitAsync();
 
     public IPostRepository Post { get; set; }
+    public ICategoryRepository Category { get; set; }
 }
