@@ -1,7 +1,7 @@
 namespace Mullayon.Core.Entities;
 
-public class Image
+public class Image:BaseEntity
 {
-    public Guid Id { get; set; }
+    
     public string Url { get; set; }
 }

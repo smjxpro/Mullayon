@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using Mullayon.Api.Profiles;
 using Mullayon.Core.Entities;
 using Mullayon.Infrastructure.Data;
 using Mullayon.Infrastructure.Extensions;
@@ -10,10 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
 // For Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -60,10 +66,17 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 
 
+app.UseStaticFiles();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+ApplicationDbInitializer.SeedUsers(userManager);
 
 app.Run();

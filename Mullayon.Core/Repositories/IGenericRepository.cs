@@ -1,6 +1,8 @@
+using Mullayon.Core.Entities;
+
 namespace Mullayon.Core.Repositories;
 
-public interface IGenericRepository<T> where T:class
+public interface IGenericRepository<T> where T:BaseEntity
 {
     Task<T?> GetByIdAsync(Guid id);
     Task<IEnumerable<T>> GetAllAsync();

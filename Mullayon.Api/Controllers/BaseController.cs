@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Mullayon.Core;
 
@@ -7,10 +8,12 @@ namespace Mullayon.Api.Controllers;
 [Route("api/[controller]")]
 public class BaseController : ControllerBase
 {
-    public IUnitOfWork UnitOfWork { get; }
+    protected readonly IMapper Mapper;
+    protected IUnitOfWork UnitOfWork { get; }
 
-    public BaseController(IUnitOfWork unitOfWork)
+    public BaseController(IUnitOfWork unitOfWork, IMapper mapper)
     {
+        Mapper = mapper;
         UnitOfWork = unitOfWork;
     }
 }

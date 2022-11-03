@@ -463,4 +463,7 @@ Temporary Items
 *.sqlite-wal
 *.sqlite3
 
+wwwroot/uploads/*
+wwwroot/uploads/
+
 

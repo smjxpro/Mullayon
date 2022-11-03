@@ -41,6 +41,10 @@ namespace Mullayon.Infrastructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
@@ -56,6 +60,8 @@ namespace Mullayon.Infrastructure.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -287,6 +293,15 @@ namespace Mullayon.Infrastructure.Migrations
                     b.Property<Guid>("FeaturedImageId")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("PublishStatus")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Stars")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SubmissionStatus")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -301,6 +316,59 @@ namespace Mullayon.Infrastructure.Migrations
                     b.HasIndex("FeaturedImageId");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Mullayon.Core.Entities.Tag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("PostTag", b =>
+                {
+                    b.Property<Guid>("PostsId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("TagsId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PostsId", "TagsId");
+
+                    b.HasIndex("TagsId");
+
+                    b.ToTable("PostTag");
+                });
+
+            modelBuilder.Entity("Mullayon.Core.Entities.ApplicationRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.HasDiscriminator().HasValue("ApplicationRole");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3ae682fe-96fc-44e4-bb2d-c9b6b82c5e42",
+                            ConcurrencyStamp = "49924ef0-fa27-4b17-a096-f6a585b088ec",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "b0af6ffb-7f1a-49a8-98f1-54c20b38b555",
+                            ConcurrencyStamp = "6fa603b3-193a-480e-a106-e2ff0f1aeba4",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("CategoryPost", b =>
@@ -402,6 +470,21 @@ namespace Mullayon.Infrastructure.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("FeaturedImage");
+                });
+
+            modelBuilder.Entity("PostTag", b =>
+                {
+                    b.HasOne("Mullayon.Core.Entities.Post", null)
+                        .WithMany()
+                        .HasForeignKey("PostsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mullayon.Core.Entities.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Mullayon.Core.Entities.Post", b =>

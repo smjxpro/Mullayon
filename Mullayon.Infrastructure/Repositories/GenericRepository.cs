@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using Mullayon.Core.Entities;
 using Mullayon.Core.Repositories;
 using Mullayon.Infrastructure.Data;
 
 namespace Mullayon.Infrastructure.Repositories;
 
-public class GenericRepository<T> : IGenericRepository<T> where T : class
+public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 
 {
     protected readonly ApplicationDbContext Context;
@@ -16,7 +17,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public virtual async Task<T?> GetByIdAsync(Guid id)
     {
-        return await Context.Set<T>().FindAsync(id);
+        return await Context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
     }
 
     public virtual async Task<IEnumerable<T>> GetAllAsync()
@@ -30,13 +31,15 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return entity;
     }
 
-    public virtual async Task UpdateAsync(T entity)
+    public virtual Task UpdateAsync(T entity)
     {
         Context.Set<T>().Update(entity);
+        return Task.CompletedTask;
     }
 
-    public virtual async Task DeleteAsync(T entity)
+    public virtual Task DeleteAsync(T entity)
     {
         Context.Set<T>().Remove(entity);
+        return Task.CompletedTask;
     }
 }
