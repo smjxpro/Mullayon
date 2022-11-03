@@ -1,0 +1,94 @@
+version: '3.3'
+
+services:
+  
+  postgres:
+    container_name: mullayon_postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+      - ./DbScripts:/scripts
+      - ./DbScripts/migration.sql:/docker-entrypoint-initdb.d/migration.sql
+    ports:
+      - "5432"
+    networks:
+      - default
+    restart: unless-stopped
+  
+  pgbackup:
+    container_name: mullayon_postgres_backup
+    image: prodrigestivill/postgres-backup-local
+    restart: always
+    volumes:
+      - ./backup:/backups
+    links:
+      - postgres:postgres
+    depends_on:
+      - postgres
+    environment:
+      - POSTGRES_HOST=${DB_HOST}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_EXTRA_OPTS=-Z9 --schema=public --blobs
+      - SCHEDULE=@every 0h30m00s
+      - BACKUP_KEEP_DAYS=7
+      - BACKUP_KEEP_WEEKS=4
+      - BACKUP_KEEP_MONTHS=6
+      - HEALTHCHECK_PORT=81
+
+  api:
+    container_name: mullayon_api
+    build:
+      context: .
+      dockerfile: Mullayon.Api/Dockerfile
+    ports:
+      - "8911:80"
+    depends_on:
+      - postgres
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      DB_CONNECTION_STRING: ${DB_CONNECTION_STRING}
+      VALID_ISSUER: ${VALID_ISSUER}
+      VALID_AUDIENCE: ${VALID_ISSUER}
+      SECRET: ${SECRET}
+    networks:
+      - default
+    restart: unless-stopped
+  
+#  frontend:
+#    container_name: mullayon_frontend
+#    build:
+#      context: ./mullayon_frontend
+#    ports:
+#      - "4911:4000"
+#    networks:
+#      - default
+#    restart: unless-stopped
+#    depends_on:
+#      - api
+#  
+#  dashboard:
+#    container_name: mullayon_dashboard
+#    build:
+#      context: ./mullayon_dashboard
+#    ports:
+#      - "4912:80"
+#    networks:
+#      - default
+#    restart: unless-stopped
+#    depends_on:
+#      - api
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  postgres:
+    

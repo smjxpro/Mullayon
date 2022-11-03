@@ -36,21 +36,39 @@ builder.Services.AddAuthentication(options =>
 // Adding Jwt Bearer
     .AddJwtBearer(options =>
     {
+      
+
         options.SaveToken = true;
         options.RequireHttpsMetadata = false;
-        options.TokenValidationParameters = new TokenValidationParameters()
+        if (builder.Environment.IsDevelopment())
         {
-            ValidateIssuer = true,
-            ValidateAudience = false,
-            // ValidateAudience = true,
-            // ValidAudience = builder.Configuration["JWT:ValidAudience"],
-            ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
-        };
+            options.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuer = true,
+                ValidateAudience = false,
+                // ValidateAudience = true,
+                // ValidAudience = builder.Configuration["JWT:ValidAudience"],
+                ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+            };
+        }
+        else
+        {
+            options.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuer = true,
+                ValidateAudience = false,
+                // ValidateAudience = true,
+                // ValidAudience = builder.Configuration["JWT:ValidAudience"],
+                ValidIssuer = Environment.GetEnvironmentVariable("VALID_ISSUER"),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET")))
+            };
+        }
+
     });
 
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration, builder.Environment.IsDevelopment());
 
 
 var app = builder.Build();

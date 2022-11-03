@@ -466,4 +466,6 @@ Temporary Items
 wwwroot/uploads/*
 wwwroot/uploads/
 
+.env
+
 
